@@ -10,7 +10,7 @@ namespace Aps.net_Ef_Core_book_store.Models.DataModels
         [ForeignKey(nameof(UserId))]
         public Guid UserId { get; set; }
         public User User { get; set; }
-        public sbyte Rating { get; set; }
+        public sbyte Rating { get; set; } = 0;
         public string Comment { get; set; }
 
         [ForeignKey(nameof(BookId))]
