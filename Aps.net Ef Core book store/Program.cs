@@ -8,7 +8,13 @@
 
 Для каждой книги, добавьте возможность загружать несколько изображений.
  */
+using Aps.net_Ef_Core_book_store.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationContext>(opts =>
+ opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
