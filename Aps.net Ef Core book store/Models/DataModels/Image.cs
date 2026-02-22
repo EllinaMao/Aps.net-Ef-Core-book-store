@@ -6,7 +6,7 @@ namespace Aps.net_Ef_Core_book_store.Models.DataModels
     public class Image
     {
         [Key]
-        Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
@@ -18,7 +18,7 @@ namespace Aps.net_Ef_Core_book_store.Models.DataModels
 
         public bool IsMain { get; set; }  = false;
 
-        [ForeignKey(nameof(Id))]
+        [ForeignKey(nameof(BookId))]
         public Guid BookId { get; set; }
         public Book ImageBook { get; set; }
 

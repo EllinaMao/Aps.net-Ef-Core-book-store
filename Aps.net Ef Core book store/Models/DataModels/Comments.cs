@@ -1,12 +1,21 @@
-﻿namespace Aps.net_Ef_Core_book_store.Models.DataModels
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Aps.net_Ef_Core_book_store.Models.DataModels
 {
     public class Comments
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [Key]
+        public int Id { get; set; }
+        [ForeignKey(nameof(UserId))]
         public Guid UserId { get; set; }
         public User User { get; set; }
         public sbyte Rating { get; set; }
         public string Comment { get; set; }
+
+        [ForeignKey(nameof(BookId))]
+        public Guid BookId { get; set; }
+        public Book Book { get; set; }
 
     }
 }
