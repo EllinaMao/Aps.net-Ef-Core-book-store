@@ -19,8 +19,8 @@ namespace Aps.net_Ef_Core_book_store.Models.DataModels
         public bool IsMain { get; set; }  = false;
 
         [ForeignKey(nameof(BookId))]
-        public Guid BookId { get; set; }
-        public Book ImageBook { get; set; }
+        public int BookId { get; set; }
+        public Book BookImage { get; set; }
 
 
     }
