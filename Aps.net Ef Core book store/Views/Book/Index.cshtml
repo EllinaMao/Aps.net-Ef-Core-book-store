@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Book>
+
+<h2>Каталог книг</h2>
+<div class="row">
+	@foreach (var book in Model)
+	{
+		<div class="col-md-4">
+			<div class="card mb-4 shadow-sm">
+                
+				@{
+					var mainImage = book.Images?.FirstOrDefault(i => i.IsMain) ?? book.Images?.FirstOrDefault();
+				}
+
+				@if (mainImage != null)
+				{
+					<img src="@mainImage.Url" class="card-img-top" alt="@book.Name" style="height: 350px; object-fit: cover;" />
+				}
+				else
+				{
+					<div class="card-img-top bg-light d-flex justify-content-center align-items-center" style="height: 350px; border-bottom: 1px solid #ddd;">
+						<span class="text-secondary">Нет изображения</span>
+					</div>
+				}
+
+				<div class="card-body">
+					<h5 class="card-title">@book.Name</h5>
+					<p class="card-text">
+						<strong>Авторы:</strong>
+						@(book.Authors != null && book.Authors.Any() ? string.Join(", ", book.Authors.Select(a => a.Name)) : "Не указаны")<br />
+                        
+						<strong>Жанры:</strong>
+						@(book.Genres != null && book.Genres.Any() ? string.Join(", ", book.Genres.Select(g => g.Name)) : "Не указаны")<br />
+                        
+						<strong>Цена:</strong> @book.Price.ToString("C")
+					</p>
+					<a href="@Url.Action("Details", "Book", new { id = book.Id })" class="btn btn-primary w-100">Подробнее</a>
+				</div>
+			</div>
+		</div>
+	}
+</div>

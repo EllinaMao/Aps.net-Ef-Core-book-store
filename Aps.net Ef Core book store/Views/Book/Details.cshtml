@@ -1,0 +1,116 @@
+﻿@model BookDetailsViewModel
+@{
+	ViewData["Title"] = Model.Title;
+}
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-md-4">
+			@if (Model.ImageUrls != null && Model.ImageUrls.Any())
+			{
+				<img src="@Model.ImageUrls.First()" class="img-fluid rounded shadow-sm mb-3" alt="@Model.Title" />
+			}
+			else
+			{
+				<div class="bg-light text-secondary d-flex justify-content-center align-items-center rounded shadow-sm mb-3" style="height: 300px; border: 1px dashed #ccc;">
+					<span>Нет изображения</span>
+				</div>
+			}
+
+			<div class="card p-3 shadow-sm">
+				<h6>Добавить изображения</h6>
+				<form asp-action="UploadImages" asp-controller="Book" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="bookId" value="@Model.Id" />
+					<div class="mb-2">
+						<input type="file" name="uploads" multiple class="form-control form-control-sm" accept="image/*" required />
+					</div>
+					<button type="submit" class="btn btn-sm btn-outline-success w-100">Загрузить</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="col-md-8">
+			<h2 class="fw-bold">@Model.Title</h2>
+			<h4 class="text-success mb-4">@Model.Price.ToString("C")</h4>
+
+			<p class="mb-1">
+				<strong>Авторы:</strong>
+				@(Model.AuthorNames != null && Model.AuthorNames.Any() ? string.Join(", ", Model.AuthorNames) : "Не указаны")
+			</p>
+			<p class="mb-4">
+				<strong>Жанры:</strong>
+				@(Model.GenreNames != null && Model.GenreNames.Any() ? string.Join(", ", Model.GenreNames) : "Не указаны")
+			</p>
+
+			<h5 class="border-bottom pb-2">Описание</h5>
+			<p style="white-space: pre-line;">@Model.Description</p>
+
+			@if (Model.ImageUrls != null && Model.ImageUrls.Count > 1)
+			{
+				<h5 class="mt-4 border-bottom pb-2">Галерея</h5>
+				<div class="row g-2 mt-2">
+					@foreach (var url in Model.ImageUrls.Skip(1))
+					{
+						<div class="col-4 col-md-3">
+							<img src="@url" class="img-fluid rounded border" alt="Галерея книги" style="object-fit: cover; aspect-ratio: 1/1;" />
+						</div>
+					}
+				</div>
+			}
+		</div>
+	</div>
+
+	<div class="row mt-5">
+		<div class="col-12">
+			<h3 class="border-bottom pb-2 mb-4">Отзывы покупателей</h3>
+
+			@if (Model.ExistingComments != null && Model.ExistingComments.Any())
+			{
+				<div class="mb-4">
+					@foreach (var comment in Model.ExistingComments.OrderByDescending(c => c.Id))
+					{
+						<div class="card mb-3 shadow-sm">
+							<div class="card-body">
+								<div class="d-flex justify-content-between">
+									<h6 class="card-subtitle mb-2 text-warning fw-bold">
+										Оценка: @comment.Rating / 5
+									</h6>
+								</div>
+								<p class="card-text mb-0">@comment.Comment</p>
+							</div>
+						</div>
+					}
+				</div>
+			}
+			else
+			{
+				<div class="alert alert-secondary">
+					Для этой книги пока нет отзывов. Будьте первым!
+				</div>
+			}
+
+			<div class="card bg-light p-4 mt-4 shadow-sm">
+				<h5 class="mb-3">Оставить свой отзыв</h5>
+				<form asp-action="AddComment" asp-controller="Book" method="post">
+					<input type="hidden" asp-for="Id" />
+                    
+					<div class="mb-3">
+						<label asp-for="NewCommentRating" class="form-label fw-bold">Ваша оценка (от 0 до 5)</label>
+						<input asp-for="NewCommentRating" type="number" min="0" max="5" class="form-control" style="max-width: 150px;" required />
+					</div>
+                    
+					<div class="mb-3">
+						<label asp-for="NewCommentText" class="form-label fw-bold">Текст отзыва</label>
+						<textarea asp-for="NewCommentText" class="form-control" rows="4" placeholder="Напишите, что вы думаете об этой книге..." required></textarea>
+					</div>
+                    
+					<button type="submit" class="btn btn-primary">Отправить отзыв</button>
+				</form>
+			</div>
+		</div>
+	</div>
+    
+	<div class="mt-4 mb-5">
+		<a asp-action="Index" class="btn btn-outline-secondary">Вернуться в каталог</a>
+	</div>
+</div>

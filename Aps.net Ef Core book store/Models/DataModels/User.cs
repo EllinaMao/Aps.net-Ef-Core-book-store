@@ -5,7 +5,7 @@ namespace Aps.net_Ef_Core_book_store.Models.DataModels
     public class User
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [StringLength(100)]
         [Required]
         public string Name { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Aps.net_Ef_Core_book_store.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,8 @@ namespace Aps.net_Ef_Core_book_store.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,8 +57,7 @@ namespace Aps.net_Ef_Core_book_store.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
@@ -144,8 +144,7 @@ namespace Aps.net_Ef_Core_book_store.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Rating = table.Column<short>(type: "smallint", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId1 = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     BookId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -158,11 +157,10 @@ namespace Aps.net_Ef_Core_book_store.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_User_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Comments_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -181,9 +179,9 @@ namespace Aps.net_Ef_Core_book_store.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_UserId1",
+                name: "IX_Comments_UserId",
                 table: "Comments",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_BookId",

@@ -1,0 +1,53 @@
+﻿@model BookCreateViewModel
+
+<h2>Добавить новую книгу</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    
+	<div class="form-group mb-3">
+		<label asp-for="Name">Название книги</label>
+		<input asp-for="Name" class="form-control" required />
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+
+	<div class="form-group mb-3">
+		<label asp-for="Description">Описание</label>
+		<textarea asp-for="Description" class="form-control" rows="4"></textarea>
+		<span asp-validation-for="Description" class="text-danger"></span>
+	</div>
+
+	<div class="form-group mb-3">
+		<label asp-for="Price">Цена</label>
+		<input asp-for="Price" type="number" step="0.01" class="form-control" required />
+		<span asp-validation-for="Price" class="text-danger"></span>
+	</div>
+
+	<div class="card p-3 mb-3">
+		<h5>Авторы</h5>
+		<div class="form-group mb-2">
+			<label>Выберите существующих (зажмите Ctrl для выбора нескольких)</label>
+			<select asp-for="SelectedAuthorIds" asp-items="Model.AvailableAuthors" class="form-control" multiple></select>
+		</div>
+		<hr />
+		<div class="form-group">
+			<label asp-for="NewAuthorName">Или добавьте нового автора</label>
+			<input asp-for="NewAuthorName" class="form-control" placeholder="Введите имя и фамилию" />
+		</div>
+	</div>
+
+	<div class="form-group mb-3">
+		<label>Жанры (зажмите Ctrl для выбора нескольких)</label>
+		<select asp-for="SelectedGenreIds" asp-items="Model.AvailableGenres" class="form-control" multiple></select>
+	</div>
+
+	<div class="card p-3 mb-3 border-success">
+		<h5>Изображения</h5>
+		<div class="form-group">
+			<label asp-for="Uploads">Выберите картинки для книги</label>
+			<input asp-for="Uploads" type="file" class="form-control" multiple accept="image/*" />
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-primary mt-2">Сохранить книгу</button>
+	<a asp-action="Index" class="btn btn-secondary mt-2">Отмена</a>
+</form>

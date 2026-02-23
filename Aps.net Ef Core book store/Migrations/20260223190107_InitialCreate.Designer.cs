@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aps.net_Ef_Core_book_store.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20260222182231_Init")]
-    partial class Init
+    [Migration("20260223190107_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace Aps.net_Ef_Core_book_store.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Book");
@@ -86,17 +89,14 @@ namespace Aps.net_Ef_Core_book_store.Migrations
                     b.Property<short>("Rating")
                         .HasColumnType("smallint");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("UserId1")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -155,11 +155,9 @@ namespace Aps.net_Ef_Core_book_store.Migrations
 
             modelBuilder.Entity("Aps.net_Ef_Core_book_store.Models.DataModels.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -211,9 +209,7 @@ namespace Aps.net_Ef_Core_book_store.Migrations
 
                     b.HasOne("Aps.net_Ef_Core_book_store.Models.DataModels.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Book");
 

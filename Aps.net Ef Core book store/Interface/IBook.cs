@@ -12,5 +12,11 @@ namespace Aps.net_Ef_Core_book_store.Interface
         void DeleteBook(Book book);
 
 
+        IEnumerable<Author> GetAllAuthors();
+        IEnumerable<Genre> GetAllGenres();
+        List<Author> GetAuthorsByIds(List<int> authorIds);
+        List<Genre> GetGenresByIds(List<int> genreIds);
+
+
     }
 }

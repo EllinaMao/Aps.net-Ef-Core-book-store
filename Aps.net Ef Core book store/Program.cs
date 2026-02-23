@@ -9,15 +9,23 @@
 Для каждой книги, добавьте возможность загружать несколько изображений.
  */
 using Aps.net_Ef_Core_book_store.Data;
+using Aps.net_Ef_Core_book_store.Interface;
+using Aps.net_Ef_Core_book_store.Repository;
+using Aps.net_Ef_Core_book_store.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 builder.Services.AddDbContext<ApplicationContext>(opts =>
  opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IBook, BookRepository>();
+builder.Services.AddScoped<IComment, CommentRepository>();
+builder.Services.AddScoped<IImage, ImageService>();
+builder.Services.AddScoped<IAuthor, AuthorRepository>();
 
 var app = builder.Build();
 
@@ -38,7 +46,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Book}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

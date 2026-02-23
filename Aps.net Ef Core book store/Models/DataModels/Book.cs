@@ -10,7 +10,8 @@ namespace Aps.net_Ef_Core_book_store.Models.DataModels
         [StringLength(200)]
         public string Name { get; set; }
         public string Description { get; set; }
-
+        [DataType(DataType.Currency)]
+        public decimal Price { get; set; }
         public ICollection<Image> Images { get; set; }
         public ICollection<Comments> Comments { get; set; }
         public ICollection<Genre> Genres { get; set; }
