@@ -30,6 +30,7 @@ namespace Aps.net_Ef_Core_book_store.Repository
                 .Include(b => b.Genres)
                 .Include(b => b.Images)
                 .Include(b => b.Comments)
+                .ThenInclude(c => c.User)
                 .FirstOrDefault(e => e.Id == id);
         }
 

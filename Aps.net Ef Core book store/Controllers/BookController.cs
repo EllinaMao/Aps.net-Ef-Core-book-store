@@ -45,6 +45,7 @@ namespace Aps.net_Ef_Core_book_store.Controllers
                 ImageUrls = book.Images?.OrderByDescending(i => i.IsMain).Select(i => i.Url).ToList() ?? new List<string>()
             };
 
+
             return View(viewModel);
         }
 
@@ -56,6 +57,7 @@ namespace Aps.net_Ef_Core_book_store.Controllers
                 BookId = model.Id,
                 Comment = model.NewCommentText,
                 Rating = model.NewCommentRating,
+                UserId = new Guid("7F523A0A-43D7-4F7F-A86E-EB401CCB0362")
             };
 
             await _commentRepository.AddCommentAsync(comment);

@@ -70,6 +70,9 @@
 					@foreach (var comment in Model.ExistingComments.OrderByDescending(c => c.Id))
 					{
 						<div class="card mb-3 shadow-sm">
+							<div class="card-header fw-bold mb-0">
+								@(comment.User?.Name ?? "Анонимный пользователь")
+							</div>
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
 									<h6 class="card-subtitle mb-2 text-warning fw-bold">
